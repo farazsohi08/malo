@@ -1,0 +1,12 @@
+diff --git a/node_modules/jsxgraph/package.json b/node_modules/jsxgraph/package.json
+index 1c87dbb..8c343ac 100644
+--- a/node_modules/jsxgraph/package.json
++++ b/node_modules/jsxgraph/package.json
+@@ -4,6 +4,7 @@
+   "homepage": "https://jsxgraph.org",
+   "version": "1.6.0",
+   "exports": {
++    "style": "./distrib/jsxgraph.css",
+     "types": "./src/index.d.ts",
+     "default": "./src/index.js"
+   },
