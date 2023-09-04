@@ -36,7 +36,8 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "jsxgraph": "^1.6.0"
+    "jsxgraph": "^1.6.0",
+    "mathjax-full": "^3.2.2"
   },
   "prettier": {
     "singleQuote": true,
