@@ -1,4 +1,5 @@
-/// <reference types="vite/client" />
+import "@total-typescript/ts-reset";
+import 'vite/client';
 
 declare module "*.vue" {
   import { defineComponent } from "vue";
