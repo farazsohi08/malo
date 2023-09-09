@@ -1,7 +1,8 @@
-import mathJaxApi from 'mathjax-full';
+import fg from 'fast-glob';
+import katex from 'katex';
 import * as fs from 'node:fs/promises';
-import * as path from 'node:path'
-
+import * as path from 'node:path';
+import type { CompileTimeFunction } from 'vite-plugin-compile-time';
 
 /*
  * The mml extension defines \mi{}, \mo{}, \mn{}, \ms{}, \mtext{} for creating
@@ -17,52 +18,57 @@ import * as path from 'node:path'
 //
 //  The default TeX packages to use
 //
-const PACKAGES = '*, base, autoload, require, ams, newcommand, mml'.split(/\s*,\s*/);
+// const PACKAGES = 'base, autoload, require, ams, newcommand, mml'.split(/\s*,\s*/);
+// const PACKAGES = '*'.split(/\s*,\s*/);
 
-
+// const init = require('mathjax-full')
 //
 //  Configure MathJax
 //
-MathJax = {
-    loader: {
-        paths: {
-            mathjax: 'mathjax-full/es5',
-            custom: '.'
-        },
-        source: require('mathjax-full/components/src/source.js').source,
-        require: require,
-        load: ['input/tex', 'adaptors/liteDOM', '[custom]/mml']
-    },
-    tex: {packages: PACKAGES},
-    startup: {
-        pageReady: () => {
-            MathJax.tex2mmlPromise(argv._[0] || '', {display: !argv.inline})
-                .then(mml => console.log(mml))
-                .catch(err => console.log(err));
-        }
-    }
-};
+// MathJax = {
+//     loader: {
+//         paths: {
+//             mathjax: 'mathjax-full/es5',
+//             custom: '.'
+//         },
+//         source: require('mathjax-full/components/src/source.js').source,
+//         require: require,
+//         load: ['input/tex', 'adaptors/liteDOM', '[custom]/mml']
+//     },
+//     tex: {packages: PACKAGES},
+//     startup: {
+//         pageReady: () => {
+//             MathJax.tex2mmlPromise(argv._[0] || '', {display: !argv.inline})
+//                 .then(mml => console.log(mml))
+//                 .catch(err => console.log(err));
+//         }
+//     }
+// };
 
 //
 //  Load the MathJax startup module
 //
-require('mathjax-full/components/src/startup/startup.js');
+// require('mathjax-full/components/src/startup/startup.js');
 
-export default async function getMathML() {
+const renderedTex: CompileTimeFunction = async () => {
+  const texFiles = await fg('./**/*.tex', { absolute: true });
+
   const filePath = path.join(__dirname, 'problem1.tex');
   const tex = await fs.readFile(filePath);
 
-  mathJaxApi.config({
-    MathJax: {},
+  const html = katex.renderToString(tex.toString('utf8'), {
+    // output: 'mathml',
+    trust: true,
+    strict: false,
   });
 
-  mathJaxApi.start();
-  const mml = await new Promise((resolve, reject) => {
-    mathJaxApi.typeset({ math: tex, format: 'TeX', mml: true }, (data) => {
-      if (data.errors) reject(data.errors);
-      else resolve(data.mml);
-    });
-  });
+  // const htmlWithNewlineFix = html.replaceAll(
+  //   '<mspace linebreak="newline"></mspace>',
+  //   '</math>$&<math>',
+  // );
 
-  return { data: mml };
-}
+  return { data: html, watchFiles: texFiles };
+  // return { data: htmlWithNewlineFix, watchFiles: texFiles };
+};
+
+export default renderedTex;

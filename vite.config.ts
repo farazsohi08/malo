@@ -1,7 +1,7 @@
-import { fileURLToPath, URL } from 'node:url';
 import vue from '@vitejs/plugin-vue';
-import compileTime from "vite-plugin-compile-time"
+import { fileURLToPath, URL } from 'node:url';
 import { type UserConfig } from 'vite';
+import compileTime from 'vite-plugin-compile-time';
 
 export default {
   plugins: [compileTime(), vue()],
