@@ -85,48 +85,6 @@
       <path
         d="M285 300a5 5 0 1 1-10 0 5 5 0 0 1 10 0zM425 200c0 2.762-2.238 5-5 5a5 5 0 1 1 0-10 5 5 0 0 1 5 5zM705 425c0 2.763-2.238 5-5 5s-5-2.237-5-5a5 5 0 1 1 10 0z"
       />
-      <text
-        font-family="'Arial-ItalicMT'"
-        font-size="56"
-        transform="translate(320 60)"
-      >
-        U
-      </text>
-      <text
-        font-family="'Arial-ItalicMT'"
-        font-size="48"
-        transform="translate(445 520)"
-      >
-        U
-      </text>
-      <text
-        font-family="'Arial-ItalicMT'"
-        font-size="56"
-        transform="translate(45 260)"
-      >
-        U
-      </text>
-      <text
-        font-family="'ArialMT'"
-        font-size="36"
-        transform="translate(82.5 270)"
-      >
-        H
-      </text>
-      <text
-        font-family="'ArialMT'"
-        font-size="36"
-        transform="translate(360 70)"
-      >
-        W
-      </text>
-      <text
-        font-family="'ArialMT'"
-        font-size="36"
-        transform="translate(480 530)"
-      >
-        A
-      </text>
       <g class="field-lines" stroke="gray" stroke-width=".4" fill="gray">
         <path
           fill="gray"
@@ -194,54 +152,23 @@
         stroke-width="2"
         d="M592.5 167.5h29L614 160"
       />
-      <g class="text" transform="translate(-2, 1.5)">
-        <text
-          fill="#00F"
-          font-family="'Arial-ItalicMT'"
-          font-size="24"
-          transform="translate(650 270)"
-        >
-          V
-        </text>
-        <text
-          fill="gray"
-          font-family="'Arial-ItalicMT'"
-          font-size="56"
-          transform="translate(590 210)"
-        >
-          E
-        </text>
+      <g class="text" font-family="serif" transform="translate(0, 1)">
+        <text font-size="56" transform="translate(320 60)">U</text>
+        <text font-size="48" transform="translate(445 520)">U</text>
+        <text font-size="56" transform="translate(45 260)">U</text>
+        <text font-size="36" transform="translate(82.5 270)">H</text>
+        <text font-size="36" transform="translate(360 70)">W</text>
+        <text font-size="36" transform="translate(480 530)">A</text>
+        <text fill="#00F" font-size="24" transform="translate(650 270)">V</text>
+        <text fill="gray" font-size="56" transform="translate(590 210)">E</text>
 
-        <text
-          font-family="'MyriadPro-Regular'"
-          font-size="40"
-          transform="translate(417.5 250)"
-        >
-          1
-        </text>
-        <text
-          font-family="'MyriadPro-Regular'"
-          font-size="40"
-          transform="translate(500 130)"
-        >
-          2
-        </text>
-        <text
-          font-family="'MyriadPro-Regular'"
-          font-size="40"
-          transform="translate(760 135)"
-        >
-          3
-        </text>
+        <g class="numbers" font-size="38">
+          <text transform="translate(417.5 250)">1</text>
+          <text transform="translate(500 130)">2</text>
+          <text transform="translate(760 135)">3</text>
+        </g>
 
-        <text
-          fill="gray"
-          font-family="'ArialMT'"
-          font-size="36"
-          transform="translate(625 220)"
-        >
-          A
-        </text>
+        <text fill="gray" font-size="36" transform="translate(625 220)">A</text>
       </g>
       <path
         fill="none"
@@ -297,6 +224,51 @@
         stroke-miterlimit="10"
         stroke-width="1.674"
       />
+      <defs>
+        <filter
+          id="drop-shadow"
+          color-interpolation-filters="sRGB"
+          x="-50%"
+          y="0%"
+          height="200%"
+          width="200%"
+        >
+          <!-- Take source alpha, offset it by angle/distance and blur it by size -->
+          <feOffset
+            id="offset"
+            in="SourceAlpha"
+            dx="5"
+            dy="0"
+            result="SA-offset"
+          />
+          <feGaussianBlur
+            id="blur"
+            in="SA-offset"
+            stdDeviation="3.75"
+            result="SA-o-blur"
+          />
+
+
+          <!-- Adjust the spread by multiplying alpha by a constant factor -->
+          <feComponentTransfer in="SA-o-blur" result="SA-o-b-c-sprd">
+            <feFuncA id="spread-ctrl" type="linear" :slope="3 * beamIntensity" />
+          </feComponentTransfer>
+
+          <!-- Adjust color and opacity by adding fixed offsets and an opacity multiplier -->
+          <feColorMatrix
+            id="recolor"
+            in="SA-o-b-c-sprd"
+            type="matrix"
+            values="0 0 0 0 0.404 0 0 0 0 0.976 0 0 0 0 0.243 0 0 0 0.8 0"
+            result="SA-o-b-c-s-recolor"
+          />
+          <!-- Merge the shadow with the original -->
+          <feMerge>
+            <feMergeNode in="SA-o-b-c-s-recolor" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
     </svg>
   </div>
 </template>
@@ -305,8 +277,8 @@
 import { clamp } from 'remeda';
 import { computed, ref } from 'vue';
 
-const coilVoltage = ref(5);
-const screenVoltage = ref(5);
+const coilVoltage = ref(7);
+const screenVoltage = ref(3);
 
 const coilDependence = computed(() => {
   const v = clamp(coilVoltage.value, { min: 0, max: 10 });
@@ -339,5 +311,9 @@ const beamIntensity = computed(
     filter: drop-shadow(0 0 v-bind(0.6 + beamIntensity) rgb(129, 2, 123));
     text-shadow: 0 0 3px rgb(129, 2, 123);
   }
+}
+
+.screen {
+  filter: url(#drop-shadow);
 }
 </style>
