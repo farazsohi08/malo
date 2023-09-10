@@ -26,6 +26,7 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@tsconfig/node18": "^18.2.1",
     "@types/katex": "^0.16.2",
+    "@types/lodash-es": "^4.17.9",
     "@types/node": "^20.6.0",
     "@vitejs/plugin-vue": "^4.3.4",
     "@vue/tsconfig": "^0.4.0",
@@ -46,15 +47,17 @@
   "dependencies": {
     "jsxgraph": "^1.6.0",
     "katex": "^0.16.8",
+    "lodash-es": "^4.17.21",
     "mathjax-full": "^3.2.2",
     "mathjax-node": "^2.1.1",
+    "remeda": "^1.26.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all",
-    "htmlWhitespaceSensitivity": "ignore",
+    "htmlWhitespaceSensitivity": "css",
     "cssDeclarationSorterKeepOverrides": false,
     "importOrder": [
       "<BUILT_IN_MODULES>",
