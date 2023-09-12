@@ -42,7 +42,9 @@ onMounted(() => {
 
   // 3D points:
   // Point on xy plane
-  const pointXY = view.create('point3d', [7, 3,0], { name: '(U\u2095, U\u2090)',  });
+  const pointXY = view.create('point3d', [7, 3, 0], {
+    name: '(U\u2095, U\u2090)',
+  });
 
   // pointXY.on('move', (() => pointXY.setPosition([pointXY.X(), pointXY.Y(), 0])))
 
