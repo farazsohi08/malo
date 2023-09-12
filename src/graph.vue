@@ -9,23 +9,10 @@ import { onMounted } from 'vue';
 import { beamIntensity } from './equations';
 
 const containerId = `jxgbox-${uniqueId()}`;
-// Function F to be plotted
-const graphFunction = beamIntensity;
 // const graphFunction = (x: number, y: number) => 0.15 * x * y + 2;
 onMounted(() => {
-  // // Define some colors. optimized for colorblinds
-  // const colors = [
-  //   JXG.palette.blue,
-  //   JXG.palette.red,
-  //   JXG.palette.green,
-  //   JXG.palette.black,
-  //   JXG.palette.purple,
-  //   JXG.palette.yellow,
-  //   JXG.palette.skyblue,
-  // ];
-  // let cnt = 0;
-
   const board = JXG.JSXGraph.initBoard(containerId, {
+    renderer: 'svg',
     boundingbox: [-8, 8, 8, -8],
     keepaspectratio: false,
     axis: false,
@@ -35,8 +22,8 @@ onMounted(() => {
   const view = board.create(
     'view3d',
     [
-      [-6, -3],
-      [8, 8],
+      [-5, -5],
+      [10, 10],
       [box, box, box],
     ],
     { xPlaneRear: { visible: true }, yPlaneRear: { visible: true } },
@@ -46,7 +33,7 @@ onMounted(() => {
   view.create(
     'functiongraph3d',
     [
-      graphFunction,
+      beamIntensity,
       box, // () => [-s.Value()*5, s.Value() * 5],
       box, // () => [-s.Value()*5, s.Value() * 5],
     ],
@@ -55,16 +42,21 @@ onMounted(() => {
 
   // 3D points:
   // Point on xy plane
-  const pointXY = view.create('point3d', [2, 2, 0], { withLabel: false });
+  const pointXY = view.create('point3d', [7, 3,0], { name: '(U\u2095, U\u2090)',  });
+
+  // pointXY.on('move', (() => pointXY.setPosition([pointXY.X(), pointXY.Y(), 0])))
 
   // Project Axy to the surface
   const pointSurface = view.create(
     'point3d',
-    [() => [pointXY.X(), pointXY.Y(), graphFunction(pointXY.X(), pointXY.Y())]],
-    { withLabel: false },
+    [() => [pointXY.X(), pointXY.Y(), beamIntensity(pointXY.X(), pointXY.Y())]],
+    { name: 'Beam Intensity' },
   );
 
   view.create('line3d', [pointXY, pointSurface], { dash: 1 });
+  // (view.az_slide as Slider).setValue(0);
+  // (view.el_slide as Slider).setValue(0);
+  // board.update();
 });
 </script>
 

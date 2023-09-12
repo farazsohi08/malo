@@ -18,10 +18,6 @@
   text-rendering: optimizeLegibility;
 }
 
-/* .katex {
-  display: block;
-} */
-
 mspace[linebreak='newline'] {
   display: block;
   width: 100%;
