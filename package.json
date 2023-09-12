@@ -7,8 +7,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "format": "prettier . --write --ignore-path .gitignore --ignore-unknown",
+    "lint": "eslint . --fix --ignore-path .gitignore",
     "postinstall": "patch-package"
   },
   "repository": {
@@ -23,14 +25,20 @@
   "homepage": "https://github.com/farazsohi08/malo#readme",
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@rushstack/eslint-patch": "^1.3.3",
     "@total-typescript/ts-reset": "^0.5.1",
     "@tsconfig/node18": "^18.2.1",
     "@types/katex": "^0.16.2",
     "@types/lodash-es": "^4.17.9",
     "@types/node": "^20.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@vitejs/plugin-vue": "^4.3.4",
+    "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/tsconfig": "^0.4.0",
     "autoprefixer": "^10.4.15",
+    "eslint": "^8.49.0",
+    "eslint-plugin-unicorn": "^48.0.1",
+    "eslint-plugin-vue": "^9.17.0",
     "fast-glob": "^3.3.1",
     "lightningcss": "^1.21.7",
     "patch-package": "^8.0.0",
@@ -42,14 +50,13 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vite-plugin-compile-time": "^0.2.1"
+    "vite-plugin-compile-time": "^0.2.1",
+    "vue-tsc": "^1.8.10"
   },
   "dependencies": {
     "jsxgraph": "^1.6.0",
     "katex": "^0.16.8",
     "lodash-es": "^4.17.21",
-    "mathjax-full": "^3.2.2",
-    "mathjax-node": "^2.1.1",
     "remeda": "^1.26.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"

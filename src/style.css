@@ -5,7 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,12 +18,11 @@
   text-rendering: optimizeLegibility;
 }
 
-
 /* .katex {
   display: block;
 } */
 
-mspace[linebreak="newline"] {
+mspace[linebreak='newline'] {
   display: block;
   width: 100%;
 }

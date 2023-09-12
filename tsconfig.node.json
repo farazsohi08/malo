@@ -15,11 +15,9 @@
     "module": "Node16",
     "moduleResolution": "Node16",
     "useDefineForClassFields": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "skipLibCheck": true,
-    
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

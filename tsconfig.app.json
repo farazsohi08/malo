@@ -1,33 +1,21 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": [
-    "src", "types"
-  ],
-  "exclude": [
-    "src/**/__tests__/*",
-    "src/assets/tex/**/*"
-  ],
+  "files": ["types/browser.d.ts"],
+  "include": ["src"],
+  "exclude": ["src/**/__tests__/*", "src/assets/tex/**/*"],
   "compilerOptions": {
     "composite": true,
-    "lib": [
-      "ES2023",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
+    "paths": { "@/*": ["./src/*"] },
     "skipLibCheck": true,
-    
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     /* Bundler mode */
     "target": "ES2020",
     "module": "ES2022",

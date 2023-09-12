@@ -248,10 +248,13 @@
             result="SA-o-blur"
           />
 
-
           <!-- Adjust the spread by multiplying alpha by a constant factor -->
           <feComponentTransfer in="SA-o-blur" result="SA-o-b-c-sprd">
-            <feFuncA id="spread-ctrl" type="linear" :slope="3 * beamIntensity" />
+            <feFuncA
+              id="spread-ctrl"
+              type="linear"
+              :slope="3 * beamIntensity"
+            />
           </feComponentTransfer>
 
           <!-- Adjust color and opacity by adding fixed offsets and an opacity multiplier -->
@@ -274,27 +277,13 @@
 </template>
 
 <script setup lang="ts">
-import { clamp } from 'remeda';
 import { computed, ref } from 'vue';
+import * as equations from './equations';
 
 const coilVoltage = ref(7);
 const screenVoltage = ref(3);
-
-const coilDependence = computed(() => {
-  const v = clamp(coilVoltage.value, { min: 0, max: 10 });
-  if (v < 2.5) return 0;
-
-  return (1 / 7.5 ** 2) * (v - 2.5) ** 2;
-});
-
-const screenDependence = computed(() => {
-  const v = clamp(screenVoltage.value, { min: 0, max: 10 });
-  if (v < 1) return 0;
-  if (v >= 3) return 1;
-
-  return 0.5 * v - 1;
-});
-
+const coilDependence = computed(() => equations.coil(coilVoltage.value));
+const screenDependence = computed(() => equations.screen(screenVoltage.value));
 const beamIntensity = computed(
   () => coilDependence.value * screenDependence.value,
 );
