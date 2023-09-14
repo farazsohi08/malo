@@ -1,0 +1,21 @@
+U_H\;\text{can be varied from 0-10}V \newline
+U_A\;\text{can be varied from 0-10}KV \newline
+U_W\;\text{can be varied from 0-10}KV \newline
+\\[2em]
+
+f(U_H)=
+\begin{cases}
+      0                                    & 0V \leq U_H \lt 2.5V   \\
+      \frac{1}{7.5^2} \times (U_H - 2.5)^2 & 2.5V \leq U_H \leq 10V
+\end{cases}
+\\[2em]
+g(U_A)=
+\begin{cases}
+      0                           & 0V  \leq U_A  \lt 1KV  \\
+      -1 + \frac{1}{2} \times U_A & 1KV \leq  U_A \lt 3KV  \\
+      1                           & 3KV \leq  U_A \leq 10KV \\
+\end{cases}
+\\[2em]
+
+\text{Beam Intensity: } \newline
+I(U_H, U_A)=f(U_H) \times g(U_A)

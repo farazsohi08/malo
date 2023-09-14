@@ -10,3 +10,20 @@ index 1c87dbb..8c343ac 100644
      "types": "./src/index.d.ts",
      "default": "./src/index.js"
    },
+diff --git a/node_modules/jsxgraph/src/index.d.ts b/node_modules/jsxgraph/src/index.d.ts
+index d961ac9..b541c6f 100644
+--- a/node_modules/jsxgraph/src/index.d.ts
++++ b/node_modules/jsxgraph/src/index.d.ts
+@@ -3668,10 +3668,11 @@ declare namespace JXG {
+ 
+     export interface Point3DAttributes extends GeometryElementAttributes {}
+ 
+-    export interface Point3D {
++    export interface Point3D extends Omit<GeometryElement, 'setPosition'> {
+         X(): number;
+         Y(): number;
+         Z(): number;
++        setPosition(coords: [number ,number, number]): this;
+     }
+ 
+     export interface View3DAttributes extends GeometryElementAttributes {
