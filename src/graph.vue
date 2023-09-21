@@ -9,7 +9,7 @@ import { onMounted } from 'vue';
 import { beamIntensity } from './equations';
 
 const containerId = `jxgbox-${uniqueId()}`;
-// const graphFunction = (x: number, y: number) => 0.15 * x * y + 2;
+const graphFunction = (x: number, y: number) => 3 * beamIntensity(x, y);
 onMounted(() => {
   const board = JXG.JSXGraph.initBoard(containerId, {
     renderer: 'svg',
@@ -18,24 +18,25 @@ onMounted(() => {
     axis: false,
   });
 
-  const box = [0, 10];
+  const zBound = [0, 3];
+  const xyBound = [0, 10];
   const view = board.create(
     'view3d',
     [
       [-5, -5],
       [10, 10],
-      [box, box, box],
+      [xyBound, xyBound, zBound],
     ],
-    { xPlaneRear: { visible: true }, yPlaneRear: { visible: true } },
+    { xPlaneRear: { visible: false }, yPlaneRear: { visible: false } },
   );
 
   // 3D surface
   view.create(
     'functiongraph3d',
     [
-      beamIntensity,
-      box, // () => [-s.Value()*5, s.Value() * 5],
-      box, // () => [-s.Value()*5, s.Value() * 5],
+    graphFunction,
+      xyBound,
+      xyBound,
     ],
     { strokeWidth: 0.5, stepsU: 70, stepsV: 70 },
   );
@@ -46,19 +47,14 @@ onMounted(() => {
     name: '(U\u2095, U\u2090)',
   });
 
-  // pointXY.on('move', (() => pointXY.setPosition([pointXY.X(), pointXY.Y(), 0])))
-
-  // Project Axy to the surface
+  // Project pointXY to the surface
   const pointSurface = view.create(
     'point3d',
-    [() => [pointXY.X(), pointXY.Y(), beamIntensity(pointXY.X(), pointXY.Y())]],
+    [() => [pointXY.X(), pointXY.Y(), graphFunction(pointXY.X(), pointXY.Y())]],
     { name: 'Beam Intensity' },
   );
 
   view.create('line3d', [pointXY, pointSurface], { dash: 1 });
-  // (view.az_slide as Slider).setValue(0);
-  // (view.el_slide as Slider).setValue(0);
-  // board.update();
 });
 </script>
 

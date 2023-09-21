@@ -3,7 +3,10 @@
     <label class="w-72">
       <div class="flex justify-between">
         <div>Cathode Voltage (U<sub>h</sub>)</div>
-        <div class="flex justify-between w-20"><div class="px-2"> = </div><div>{{ cathodeVoltage.toFixed(2) }}V</div></div>
+        <div class="flex w-20 justify-between">
+          <div class="px-2">=</div>
+          <div>{{ cathodeVoltage.toFixed(2) }}V</div>
+        </div>
       </div>
       <input
         v-model.number="cathodeVoltage"
@@ -17,7 +20,10 @@
     <label class="w-72">
       <div class="flex justify-between">
         <div>Anode Voltage (U<sub>a</sub>)</div>
-        <div class="flex justify-between w-20"><div class="px-2"> = </div><div>{{ anodeVoltage.toFixed(2) }}KV</div></div>
+        <div class="flex w-20 justify-between">
+          <div class="px-2">=</div>
+          <div>{{ anodeVoltage.toFixed(2) }}KV</div>
+        </div>
       </div>
       <input
         class="w-72"
@@ -31,7 +37,10 @@
     <label class="w-72">
       <div class="flex justify-between">
         <div>Cylinder Voltage (U<sub>w</sub>)</div>
-        <div class="flex justify-between w-20"><div class="px-2"> = </div><div>{{ cylinderVoltage.toFixed(2) }}KV</div></div>
+        <div class="flex w-20 justify-between">
+          <div class="px-2">=</div>
+          <div>{{ cylinderVoltage.toFixed(2) }}KV</div>
+        </div>
       </div>
       <input
         class="w-72"
@@ -53,6 +62,12 @@
         stroke="#000"
         stroke-dasharray="4,4"
         d="M710 250h-10v60h10v-60zM530 250h-10v60h10v-60z"
+      />
+      <path
+        class="beam fill-lime-500"
+        :d="`M507,275 v10 ${beamSpreadPath}z`"
+        stroke="0"
+        :fill-opacity="beamIntensity"
       />
       <path
         class="coil"
@@ -249,54 +264,6 @@
         stroke-miterlimit="10"
         stroke-width="1.674"
       />
-      <defs>
-        <filter
-          id="drop-shadow"
-          color-interpolation-filters="sRGB"
-          x="-50%"
-          y="0%"
-          height="200%"
-          width="200%"
-        >
-          <!-- Take source alpha, offset it by angle/distance and blur it by size -->
-          <feOffset
-            id="offset"
-            in="SourceAlpha"
-            dx="5"
-            dy="0"
-            result="SA-offset"
-          />
-          <feGaussianBlur
-            id="blur"
-            in="SA-offset"
-            stdDeviation="3.75"
-            result="SA-o-blur"
-          />
-
-          <!-- Adjust the spread by multiplying alpha by a constant factor -->
-          <feComponentTransfer in="SA-o-blur" result="SA-o-b-c-sprd">
-            <feFuncA
-              id="spread-ctrl"
-              type="linear"
-              :slope="3 * beamIntensity"
-            />
-          </feComponentTransfer>
-
-          <!-- Adjust color and opacity by adding fixed offsets and an opacity multiplier -->
-          <feColorMatrix
-            id="recolor"
-            in="SA-o-b-c-sprd"
-            type="matrix"
-            values="0 0 0 0 0.404 0 0 0 0 0.976 0 0 0 0 0.243 0 0 0 0.8 0"
-            result="SA-o-b-c-s-recolor"
-          />
-          <!-- Merge the shadow with the original -->
-          <feMerge>
-            <feMergeNode in="SA-o-b-c-s-recolor" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
     </svg>
   </div>
 </template>
@@ -311,8 +278,15 @@ const cylinderVoltage = ref(0);
 const cathodeDependence = computed(() =>
   equations.cathode(cathodeVoltage.value),
 );
+const beamSpreadPath = computed(() => {
+  const spread = cylinderVoltage.value;
+  return `l300, ${spread} v-${2 * spread + 10}`;
+});
 const anodeDependence = computed(() => equations.anode(anodeVoltage.value));
 const anodeRelativeFieldStrength = computed(() => anodeVoltage.value / 10);
+const cylinderRelativeFieldStrength = computed(
+  () => cylinderVoltage.value / 10,
+);
 const beamIntensity = computed(
   () => cathodeDependence.value * anodeDependence.value,
 );
@@ -333,7 +307,22 @@ const beamIntensity = computed(
   );
 }
 
+.cylinder-field-lines {
+  stroke-width: v-bind(cylinderRelativeFieldStrength);
+  filter: drop-shadow(
+    0 0 v-bind(2.5 * cylinderRelativeFieldStrength + 'px')
+      theme('colors.yellow.500' / v-bind(cylinderRelativeFieldStrength))
+  );
+}
+
 .screen {
-  filter: url(#drop-shadow);
+  filter: drop-shadow(
+    v-bind(5 * beamIntensity + 'px') 0 v-bind(5 * beamIntensity + 'px')
+      theme('colors.lime.500' / v-bind(beamIntensity))
+  );
+}
+
+.beam {
+  fill: linear-gradient(0 green 0.5 green 0.5 black 1 black);
 }
 </style>
