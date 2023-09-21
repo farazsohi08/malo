@@ -31,15 +31,11 @@ onMounted(() => {
   );
 
   // 3D surface
-  view.create(
-    'functiongraph3d',
-    [
-    graphFunction,
-      xyBound,
-      xyBound,
-    ],
-    { strokeWidth: 0.5, stepsU: 70, stepsV: 70 },
-  );
+  view.create('functiongraph3d', [graphFunction, xyBound, xyBound], {
+    strokeWidth: 0.5,
+    stepsU: 70,
+    stepsV: 70,
+  });
 
   // 3D points:
   // Point on xy plane

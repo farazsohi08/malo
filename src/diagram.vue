@@ -17,6 +17,7 @@
         step="0.01"
       />
     </label>
+    <Switch rounded></Switch>
     <label class="w-72">
       <div class="flex justify-between">
         <div>Anode Voltage (U<sub>a</sub>)</div>
@@ -271,6 +272,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import * as equations from './equations';
+import Switch from './switch.vue';
 
 const cathodeVoltage = ref(7);
 const anodeVoltage = ref(3);
