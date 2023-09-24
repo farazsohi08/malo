@@ -40,14 +40,14 @@
         <div>Cylinder Voltage (U<sub>w</sub>)</div>
         <div class="flex w-20 justify-between">
           <div class="px-2">=</div>
-          <div>{{ cylinderVoltage.toFixed(2) }}KV</div>
+          <div>{{ cylinderVoltage.toFixed(2) }}V</div>
         </div>
       </div>
       <input
         class="w-72"
         v-model.number="cylinderVoltage"
         min="0.0"
-        max="10.0"
+        max="250.0"
         type="range"
         step="0.01"
       />
@@ -281,13 +281,13 @@ const cathodeDependence = computed(() =>
   equations.cathode(cathodeVoltage.value),
 );
 const beamSpreadPath = computed(() => {
-  const spread = cylinderVoltage.value;
+  const spread = cylinderVoltage.value / 12.5;
   return `l300, ${spread} v-${2 * spread + 10}`;
 });
 const anodeDependence = computed(() => equations.anode(anodeVoltage.value));
 const anodeRelativeFieldStrength = computed(() => anodeVoltage.value / 10);
 const cylinderRelativeFieldStrength = computed(
-  () => cylinderVoltage.value / 10,
+  () => cylinderVoltage.value / 250,
 );
 const beamIntensity = computed(
   () => cathodeDependence.value * anodeDependence.value,
