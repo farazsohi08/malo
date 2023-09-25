@@ -1,61 +1,73 @@
 <template>
   <div class="flex flex-col items-center">
-    <label class="w-72">
-      <div class="flex justify-between">
-        <div>Cathode Voltage (U<sub>h</sub>)</div>
-        <div class="flex w-20 justify-between">
-          <div class="px-2">=</div>
-          <div>{{ cathodeVoltage.toFixed(2) }}V</div>
+    <div
+      class="grid grid-cols-2 grid-rows-3 items-center justify-items-end gap-8"
+    >
+      <Switch
+        v-model="showAnodeFieldLines"
+        label="Show Field Lines from Anode"
+        rounded
+      ></Switch>
+      <label class="w-72">
+        <div class="flex justify-between">
+          <div>Cathode Voltage (U<sub>h</sub>)</div>
+          <div class="flex w-20 justify-between">
+            <div class="px-2">=</div>
+            <div>{{ cathodeVoltage.toFixed(2) }}V</div>
+          </div>
         </div>
-      </div>
-      <input
-        v-model.number="cathodeVoltage"
-        class="w-72"
-        min="0.0"
-        max="10.0"
-        type="range"
-        step="0.01"
-      />
-    </label>
-    <label class="w-72">
-      <div class="flex justify-between">
-        <div>Anode Voltage (U<sub>a</sub>)</div>
-        <div class="flex w-20 justify-between">
-          <div class="px-2">=</div>
-          <div>{{ anodeVoltage.toFixed(2) }}KV</div>
+        <input
+          v-model.number="cathodeVoltage"
+          class="w-72"
+          min="0.0"
+          max="10.0"
+          type="range"
+          step="0.01"
+        />
+      </label>
+      <Switch v-model="showBlueStuff" label="Show Electron" rounded></Switch>
+      <label class="w-72">
+        <div class="flex justify-between">
+          <div>Anode Voltage (U<sub>a</sub>)</div>
+          <div class="flex w-20 justify-between">
+            <div class="px-2">=</div>
+            <div>{{ anodeVoltage.toFixed(2) }}KV</div>
+          </div>
         </div>
-      </div>
-      <input
-        v-model.number="anodeVoltage"
-        class="w-72"
-        min="0.0"
-        max="10.0"
-        type="range"
-        step="0.01"
-      />
-    </label>
-    <label class="w-72">
-      <div class="flex justify-between">
-        <div>Cylinder Voltage (U<sub>w</sub>)</div>
-        <div class="flex w-20 justify-between">
-          <div class="px-2">=</div>
-          <div>{{ cylinderVoltage.toFixed(2) }}KV</div>
+        <input
+          v-model.number="anodeVoltage"
+          class="w-72"
+          min="0.0"
+          max="10.0"
+          type="range"
+          step="0.01"
+        />
+      </label>
+      <div></div>
+      <label class="w-72">
+        <div class="flex justify-between">
+          <div>Cylinder Voltage (U<sub>w</sub>)</div>
+          <div class="flex w-20 justify-between">
+            <div class="px-2">=</div>
+            <div>{{ cylinderVoltage.toFixed(2) }}V</div>
+          </div>
         </div>
-      </div>
-      <input
-        v-model.number="cylinderVoltage"
-        class="w-72"
-        min="0.0"
-        max="10.0"
-        type="range"
-        step="0.01"
-      />
-    </label>
+        <input
+          v-model.number="cylinderVoltage"
+          class="w-72"
+          min="0.0"
+          max="250.0"
+          type="range"
+          step="0.01"
+        />
+      </label>
+    </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xml:space="preserve"
       width="850"
       height="550"
+      font-family="serif"
     >
       <path
         fill="none"
@@ -123,30 +135,49 @@
         d="M285 300a5 5 0 1 1-10 0 5 5 0 0 1 10 0zM425 200c0 2.762-2.238 5-5 5a5 5 0 1 1 0-10 5 5 0 0 1 5 5zM705 425c0 2.763-2.238 5-5 5s-5-2.237-5-5a5 5 0 1 1 10 0z"
       />
       <g class="field-lines" stroke-width=".4">
-        <g class="anode-field-lines fill-green-500 stroke-green-500">
-          <path
-            d="M689.875 229.513c-60.003 15-77.398 20-149.875 20v1c72.523 0 90.128-5.03 150.125-20.03l-.25-.97z"
-          />
-          <path
-            d="M689.875 254.513c-59.965 14.99-107.398 20-179.875 20v1c72.523 0 120.09-5.021 180.125-20.03l-.25-.97z"
-          />
-          <path d="m514 275 2-2-7 2 7 2-2-2z" />
-          <path
-            d="M510 284.513v1c72.477 0 119.91 4.979 179.875 19.97l.25-.97c-60.035-15.01-107.602-20-180.125-20z"
-          />
-          <path d="m514 285 2-2-7 2 7 2-2-2zM544 250l2-2-7 2 7 2-2-2z" />
-          <path
-            d="M540 309.513v1c72.477 0 89.872 4.97 149.875 19.97l.25-.97c-59.997-15-77.602-20-150.125-20z"
-          />
-          <path d="m544 310 2-2-7 2 7 2-2-2z" />
-          <path
-            d="M540 334.513v1c72.477 0 89.872 4.97 149.875 19.97l.25-.97c-59.997-15-77.602-20-150.125-20z"
-          />
-          <path d="m544 335 2-2-7 2 7 2-2-2z" />
-          <path
-            d="M689.875 204.513c-60.003 15-77.398 20-149.875 20v1c72.523 0 90.128-5.03 150.125-20.03l-.25-.97z"
-          />
-          <path d="m544 225 2-2-7 2 7 2-2-2z" />
+        <g
+          class="transition-opacity"
+          :class="showAnodeFieldLines ? 'opacity-100' : 'opacity-0'"
+        >
+          <g class="anode-field-lines fill-green-500 stroke-green-500">
+            <path
+              d="M689.875 229.513c-60.003 15-77.398 20-149.875 20v1c72.523 0 90.128-5.03 150.125-20.03l-.25-.97z"
+            />
+            <path
+              d="M689.875 254.513c-59.965 14.99-107.398 20-179.875 20v1c72.523 0 120.09-5.021 180.125-20.03l-.25-.97z"
+            />
+            <path d="m514 275 2-2-7 2 7 2-2-2z" />
+            <path
+              d="M510 284.513v1c72.477 0 119.91 4.979 179.875 19.97l.25-.97c-60.035-15.01-107.602-20-180.125-20z"
+            />
+            <path d="m514 285 2-2-7 2 7 2-2-2zM544 250l2-2-7 2 7 2-2-2z" />
+            <path
+              d="M540 309.513v1c72.477 0 89.872 4.97 149.875 19.97l.25-.97c-59.997-15-77.602-20-150.125-20z"
+            />
+            <path d="m544 310 2-2-7 2 7 2-2-2z" />
+            <path
+              d="M540 334.513v1c72.477 0 89.872 4.97 149.875 19.97l.25-.97c-59.997-15-77.602-20-150.125-20z"
+            />
+            <path d="m544 335 2-2-7 2 7 2-2-2z" />
+            <path
+              d="M689.875 204.513c-60.003 15-77.398 20-149.875 20v1c72.523 0 90.128-5.03 150.125-20.03l-.25-.97z"
+            />
+            <path d="m544 225 2-2-7 2 7 2-2-2z" />
+          </g>
+          <g stroke-width="0">
+            <path
+              fill="none"
+              stroke="gray"
+              stroke-width="2"
+              d="M592.5 167.5h29L614 160"
+            />
+            <text fill="gray" font-size="56" transform="translate(590 210)">
+              E
+            </text>
+            <text fill="gray" font-size="36" transform="translate(625 220)">
+              A
+            </text>
+          </g>
         </g>
         <g class="cylinder-field-lines fill-yellow-500 stroke-yellow-500">
           <path d="M507.5 257.013v1h10v-1h-10z" />
@@ -163,52 +194,54 @@
           <path d="M522.172 294.672h-2.829l6.364 3.535-3.535-6.363v2.828z" />
         </g>
       </g>
-      <path
-        fill="none"
-        stroke="#00F"
-        stroke-linecap="round"
-        stroke-linejoin="bevel"
-        stroke-width="2.143"
-        d="M627.043 279.733c0 3.969-3.089 7.187-6.897 7.187-3.812 0-6.899-3.218-6.899-7.187 0-3.971 3.089-7.188 6.899-7.188 3.808 0 6.897 3.219 6.897 7.188z"
-      />
-      <path fill="#00F" d="M624.378 279.144h-8.467v1.177h8.467v-1.177" />
-      <g fill="#00F">
-        <path d="M635 279.263v1.5h35v-1.5h-35z" />
+
+      <g
+        class="blue-stuff fill-none stroke-blue-600 transition-opacity"
+        :class="showBlueStuff ? 'opacity-100' : 'opacity-0'"
+        :transform="`scale(${blueStuffScale})`"
+        transform-origin="655 280"
+      >
         <path
-          stroke="#00F"
+          class="electron-circle"
+          stroke-linecap="round"
+          stroke-linejoin="bevel"
+          stroke-width="2.143"
+          d="M627.043 279.733c0 3.969-3.089 7.187-6.897 7.187-3.812 0-6.899-3.218-6.899-7.187 0-3.971 3.089-7.188 6.899-7.188 3.808 0 6.897 3.219 6.897 7.188z"
+        />
+        <path
+          class="minus-sign fill-blue-600"
+          d="M624.378 279.144h-8.467v1.177h8.467v-1.177"
+        />
+        <path
+          class="arrow-body fill-blue-600"
+          d="M635 279.263v1.5h30v-1.5h-30z"
+        />
+        <path
+          class="arrow-head fill-blue-600"
           stroke-width=".6"
           d="m664 280-3 3 10.5-3-10.5-3 3 3z"
         />
+        <path d="M650 250h14l-5-5" />
+        <text font-size="24" transform="translate(650 270)">V</text>
       </g>
-      <path fill="none" stroke="#00F" d="M650 250h14l-5-5" />
       <path
         fill="none"
         stroke="#000"
         d="m455 235 35 25M510 135l-20 60M712 120h40"
       />
-      <path
-        fill="none"
-        stroke="gray"
-        stroke-width="2"
-        d="M592.5 167.5h29L614 160"
-      />
-      <g class="text" font-family="serif" transform="translate(0, 1)">
+      <g class="text" transform="translate(0, 1)">
         <text font-size="56" transform="translate(320 60)">U</text>
         <text font-size="48" transform="translate(445 520)">U</text>
         <text font-size="56" transform="translate(45 260)">U</text>
         <text font-size="36" transform="translate(82.5 270)">H</text>
         <text font-size="36" transform="translate(360 70)">W</text>
         <text font-size="36" transform="translate(480 530)">A</text>
-        <text fill="#00F" font-size="24" transform="translate(650 270)">V</text>
-        <text fill="gray" font-size="56" transform="translate(590 210)">E</text>
 
         <g class="numbers" font-size="38">
           <text transform="translate(417.5 250)">1</text>
           <text transform="translate(500 130)">2</text>
           <text transform="translate(760 135)">3</text>
         </g>
-
-        <text fill="gray" font-size="36" transform="translate(625 220)">A</text>
       </g>
       <path
         fill="none"
@@ -271,6 +304,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import * as equations from './equations';
+import Switch from './switch.vue';
+
+const showAnodeFieldLines = ref(false);
+const showBlueStuff = ref(false);
 
 const cathodeVoltage = ref(7);
 const anodeVoltage = ref(3);
@@ -278,14 +315,17 @@ const cylinderVoltage = ref(0);
 const cathodeDependence = computed(() =>
   equations.cathode(cathodeVoltage.value),
 );
+const blueStuffScale = computed(
+  () => 0.5 + equations.beamField(anodeVoltage.value) * 0.9,
+);
 const beamSpreadPath = computed(() => {
-  const spread = cylinderVoltage.value;
+  const spread = (250 - cylinderVoltage.value) / 12.5;
   return `l300, ${spread} v-${2 * spread + 10}`;
 });
 const anodeDependence = computed(() => equations.anode(anodeVoltage.value));
 const anodeRelativeFieldStrength = computed(() => anodeVoltage.value / 10);
 const cylinderRelativeFieldStrength = computed(
-  () => cylinderVoltage.value / 10,
+  () => cylinderVoltage.value / 250,
 );
 const beamIntensity = computed(
   () => cathodeDependence.value * anodeDependence.value,

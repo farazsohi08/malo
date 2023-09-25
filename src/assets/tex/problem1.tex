@@ -1,6 +1,6 @@
 U_H\;\text{can be varied from 0-10}V \newline
 U_A\;\text{can be varied from 0-10}KV \newline
-U_W\;\text{can be varied from 0-10}KV \newline
+U_W\;\text{can be varied from 0-250}V \newline
 \\[2em]
 
 f(U_H)=
@@ -11,9 +11,9 @@ f(U_H)=
 \\[2em]
 g(U_A)=
 \begin{cases}
-      0                           & 0V  \leq U_A  \lt 1KV  \\
-      -1 + \frac{1}{2} \times U_A & 1KV \leq  U_A \lt 3KV  \\
-      1                           & 3KV \leq  U_A \leq 10KV \\
+      0                            & 0V  \leq U_A  \lt 1KV   \\
+      \frac{1}{2} \times (U_A - 1) & 1KV \leq  U_A \lt 3KV   \\
+      1                            & 3KV \leq  U_A \leq 10KV \\
 \end{cases}
 \\[2em]
 
