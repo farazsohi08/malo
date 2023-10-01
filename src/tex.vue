@@ -4,5 +4,5 @@
 </template>
 
 <script setup lang="ts">
-const mml = import.meta.compileTime('assets/tex/index.ts');
+const mml = import.meta.compileTime<string>('assets/tex/index.ts');
 </script>

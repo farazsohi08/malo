@@ -94,7 +94,6 @@
         d="M350 350h170v-50h10v60H350v-10zM350 210h170v50h10v-60H350v10z"
       />
       <path
-        class="screen"
         fill="green"
         stroke="#000"
         d="M700 260h10V100h-10v160zM700 460h10V300h-10v160z"
@@ -355,12 +354,7 @@ const beamIntensity = computed(
   );
 }
 
-.screen {
-  filter: drop-shadow(
-    v-bind(5 * beamIntensity + 'px') 0 v-bind(5 * beamIntensity + 'px')
-      theme('colors.lime.500' / v-bind(beamIntensity))
-  );
-}
+
 
 .beam {
   fill: linear-gradient(0 green 0.5 green 0.5 black 1 black);

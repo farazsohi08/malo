@@ -25,7 +25,7 @@ module.exports = {
   overrides: [
     {
       // Config and build scripts in root directory
-      files: ['./*.{ts,mts,cts,cjs,js,mjs}'],
+      files: ['./*.{ts,mts,cts,cjs,js,mjs}', 'src/assets/tex/**/*.ts'],
       env: { node: true, browser: false, es2023: true, jest: false },
       overrides: [
         {
@@ -42,6 +42,7 @@ module.exports = {
     },
     {
       files: ['src/**/*.{vue,ts,tsx}'],
+      excludedFiles: ['src/assets/tex/**/*.ts'],
       env: { node: false, browser: true, es2023: true, jest: false },
       plugins: ['@typescript-eslint', 'vue', 'unicorn'],
       parser: 'vue-eslint-parser',
