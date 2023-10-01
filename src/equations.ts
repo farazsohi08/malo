@@ -15,6 +15,10 @@ export function anode(voltage: number): number {
   return 0.5 * (v - 1);
 }
 
+export function beamField(voltage: number): number {
+  return (2 / 100) * voltage ** 2;
+}
+
 export function beamIntensity(
   cathodeVoltage: number,
   anodeVoltage: number,
