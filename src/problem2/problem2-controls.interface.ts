@@ -3,5 +3,4 @@ export interface Controls {
   showBlueStuff: boolean;
   cathodeVoltage: number;
   anodeVoltage: number;
-  cylinderVoltage: number;
 }

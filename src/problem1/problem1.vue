@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import * as equations from '@/equations';
+import * as equations from './problem1-equations.ts';
 import Graph from '@/graph.vue';
 import { reactive } from 'vue';
 import Controls from './problem1-controls.vue';
-import type { Controls as IControls } from './problem1-controls.interface.vue';
+import type { Controls as IControls } from './problem1-controls.interface.ts';
 import Diagram from './problem1-diagram.vue';
 import Tex from './problem1-tex.vue';
 

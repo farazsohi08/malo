@@ -15,10 +15,21 @@
         </li>
       </ul>
     </nav>
-    <h1 class="text-6xl py-4">{{ route.meta.title }}</h1>
+    <h1 class="py-4 text-6xl">{{ route.meta.title }}</h1>
   </header>
   <div class="grid place-items-center p-4">
-    <main class="max-w-4xl"><RouterView></RouterView></main>
+    <main class="max-w-4xl">
+      <transition
+        enter-active-class="duration-300 ease-out"
+        enter-from-class="transform opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="transform opacity-0"
+      >
+        <RouterView></RouterView>
+      </transition>
+    </main>
   </div>
   <footer class="h-20 bg-teal-700"></footer>
 </template>

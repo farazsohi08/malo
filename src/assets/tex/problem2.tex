@@ -1,21 +1,35 @@
-U_H\;\text{can be varied from 0-10}V \newline
-U_A\;\text{can be varied from 0-10}KV \newline
-U_W\;\text{can be varied from 0-250}V \newline
+\text{Wehnelt Cylinder Voltage is fixed at } 5KV \newline
+\text{Accelerating anode voltage can be varied from 0-10}KV \newline
+\text{Hot cathode coil voltage can be varied from 0-10}V \newline
+\text{Plate voltage can be varied from } {-1}KV \text{ to } 1KV \newline
 \\[2em]
 
-f(U_H)=
+f(V_h)=
 \begin{cases}
-      0                                    & 0V \leq U_H \lt 2.5V   \\
-      \frac{1}{7.5^2} \times (U_H - 2.5)^2 & 2.5V \leq U_H \leq 10V
+      0                                    & 0V \leq V_h \lt 2.5V   \\
+      \frac{1}{7.5^2} \times (V_h - 2.5)^2 & 2.5V \leq V_h \leq 10V
 \end{cases}
 \\[2em]
-g(U_A)=
+g(V_a)=
 \begin{cases}
-      0                            & 0V  \leq U_A  \lt 1KV   \\
-      \frac{1}{2} \times (U_A - 1) & 1KV \leq  U_A \lt 3KV   \\
-      1                            & 3KV \leq  U_A \leq 10KV \\
+      0                            & 0V  \leq V_a  \lt 1KV   \\
+      \frac{1}{2} \times (V_a - 1) & 1KV \leq  V_a \lt 3KV   \\
+      1                            & 3KV \leq  V_a \leq 10KV \\
 \end{cases}
 \\[2em]
 
 \text{Beam Intensity: } \newline
-I(U_H, U_A)=f(U_H) \times g(U_A)
+I(V_h, V_a)=f(V_h) \times g(V_a)
+\\[2em]
+
+\text{Beam deflection } y \text{ between plates at distance } x \text{: } \newline
+y=0.25 \times \frac{V_p}{V_a} \times 0.1 \times x^2
+
+% 2) Electron Gun with E-Field like in https://virtuelle-experimente.de/bilder/e-feld/experimental-setup-electron-deflection-tube.svg
+% a) like 1)
+% b) the red, blue and yellow part is added.
+% c) U_W is 5kV and cannot be changed
+% d) U_K can be varied between -1kV and 1kV
+% d) the beam is just a line. It is strata until the yellow area
+% d) in the yellow area it is a parabola of the form y=0.25*U_K/V_a*0.1*x^2
+% e) behind the yellow area, it is a strait line again.

@@ -49,17 +49,16 @@
     <div></div>
     <label class="w-72">
       <div class="flex justify-between">
-        <div>Cylinder Voltage (U<sub>w</sub>)</div>
+        <div>Deflector Plate Voltage (V<sub>p</sub>)</div>
         <div class="flex w-20 justify-between">
           <div class="px-2">=</div>
-          <div>{{ controls.cylinderVoltage.toFixed(2) }}V</div>
+          <div>{{ (0).toFixed(2) }}KV</div>
         </div>
       </div>
       <input
-        v-model.number="controls.cylinderVoltage"
         class="w-72"
-        min="0.0"
-        max="250.0"
+        min="-1.0"
+        max="1.0"
         type="range"
         step="0.01"
       />
@@ -70,7 +69,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Switch from '@/switch.vue';
-import type { Controls } from './defineProps';
+import type { Controls } from './problem2-controls.interface.ts';
 
 const props = defineProps<{ modelValue: Controls }>();
 

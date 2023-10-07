@@ -233,7 +233,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as equations from '@/equations';
+import * as equations from './problem1-equations.ts';
 import type { Controls } from './problem1-controls.interface.ts';
 const controls = defineProps<Controls>();
 

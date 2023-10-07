@@ -2,6 +2,7 @@ import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'node:url';
 import { type UserConfig } from 'vite';
 import compileTime from 'vite-plugin-compile-time';
+// import eslintPlugin from 'vite-plugin-eslint';
 
 export default {
   plugins: [compileTime(), vue()],

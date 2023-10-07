@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Switch from '@/switch.vue';
-import type { Controls } from './defineProps';
+import type { Controls } from './problem1-controls.interface';
 
 const props = defineProps<{ modelValue: Controls }>();
 

@@ -12,7 +12,12 @@ module.exports = {
     EXPERIMENTAL_useSourceOfProjectReferenceRedirect: true,
     extraFileExtensions: ['.vue'],
   },
-  extends: ['eslint:recommended', 'plugin:unicorn/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:unicorn/recommended',
+    // 'plugin:import/recommended',
+    // 'plugin:import/typescript',
+  ],
   rules: {
     // The core 'no-unused-vars' rules (in the eslint:recommeded ruleset)
     // does not work with type definitions
@@ -27,6 +32,9 @@ module.exports = {
       // Config and build scripts in root directory
       files: ['./*.{ts,mts,cts,cjs,js,mjs}', 'src/assets/tex/**/*.ts'],
       env: { node: true, browser: false, es2023: true, jest: false },
+      settings: {
+        'import/resolver': { typescript: { project: './tsconfig.node.json' } },
+      },
       overrides: [
         {
           files: ['*.{ts,mts,cts}'],
@@ -37,6 +45,9 @@ module.exports = {
             'plugin:unicorn/recommended',
             'prettier',
           ],
+          rules: {
+            'import/extensions': 'off',
+          },
         },
       ],
     },
@@ -57,6 +68,9 @@ module.exports = {
           ts: require.resolve('@typescript-eslint/parser'),
           tsx: require.resolve('@typescript-eslint/parser'),
         },
+      },
+      settings: {
+        'import/resolver': { typescript: { project: './tsconfig.app.json' } },
       },
       extends: [
         'plugin:vue/vue3-recommended',
