@@ -85,6 +85,10 @@ module.exports = {
           { extensions: ['vue', 'ts', 'tsx'], shouldMatchCase: false },
         ],
         'vue/match-component-import-name': 'error',
+        'unicorn/prevent-abbreviations': [
+          'error',
+          { allowList: { props: true } },
+        ],
       },
     },
   ],

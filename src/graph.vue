@@ -5,11 +5,17 @@
 <script setup lang="ts">
 import JXG from 'jsxgraph';
 import { uniqueId } from 'lodash-es';
-import { onMounted } from 'vue';
-import { beamIntensity } from './equations';
+import { onMounted, type PropType } from 'vue';
+
+const props = defineProps({
+  graphFunction: {
+    type: Function as PropType<(x: number, y: number) => number>,
+    required: true,
+  },
+});
 
 const containerId = `jxgbox-${uniqueId()}`;
-const graphFunction = (x: number, y: number) => 3 * beamIntensity(x, y);
+
 onMounted(() => {
   const board = JXG.JSXGraph.initBoard(containerId, {
     renderer: 'svg',
@@ -31,7 +37,7 @@ onMounted(() => {
   );
 
   // 3D surface
-  view.create('functiongraph3d', [graphFunction, xyBound, xyBound], {
+  view.create('functiongraph3d', [props.graphFunction, xyBound, xyBound], {
     strokeWidth: 0.5,
     stepsU: 70,
     stepsV: 70,
@@ -46,7 +52,7 @@ onMounted(() => {
   // Project pointXY to the surface
   const pointSurface = view.create(
     'point3d',
-    [() => [pointXY.X(), pointXY.Y(), graphFunction(pointXY.X(), pointXY.Y())]],
+    [() => [pointXY.X(), pointXY.Y(), props.graphFunction(pointXY.X(), pointXY.Y())]],
     { name: 'Beam Intensity' },
   );
 
