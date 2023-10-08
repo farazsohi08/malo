@@ -9,7 +9,7 @@
     ></Switch>
     <label class="w-72">
       <div class="flex justify-between">
-        <div>Cathode Voltage (U<sub>h</sub>)</div>
+        <div>Cathode Voltage (V<sub>h</sub>)</div>
         <div class="flex w-20 justify-between">
           <div class="px-2">=</div>
           <div>{{ controls.cathodeVoltage.toFixed(2) }}V</div>
@@ -31,7 +31,7 @@
     ></Switch>
     <label class="w-72">
       <div class="flex justify-between">
-        <div>Anode Voltage (U<sub>a</sub>)</div>
+        <div>Anode Voltage (V<sub>a</sub>)</div>
         <div class="flex w-20 justify-between">
           <div class="px-2">=</div>
           <div>{{ controls.anodeVoltage.toFixed(2) }}KV</div>
@@ -52,10 +52,11 @@
         <div>Deflector Plate Voltage (V<sub>p</sub>)</div>
         <div class="flex w-20 justify-between">
           <div class="px-2">=</div>
-          <div>{{ (0).toFixed(2) }}KV</div>
+          <div>{{ controls.plateVoltage.toFixed(2) }}KV</div>
         </div>
       </div>
       <input
+        v-model.number="controls.plateVoltage"
         class="w-72"
         min="-1.0"
         max="1.0"
@@ -67,19 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import Switch from '@/switch.vue';
-import type { Controls } from './problem2-controls.interface.ts';
-
-const props = defineProps<{ modelValue: Controls }>();
-
-const emit = defineEmits(['update:modelValue']);
-
-const controls = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value);
-  },
-});
+import { controlsContext as controls } from './problem2-controls.context.ts';
 </script>
 <style scoped></style>

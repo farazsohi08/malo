@@ -1,0 +1,64 @@
+$font-folder: "../fonts";
+$use-ttf: true;
+$use-woff: true;
+$use-woff2: true;
+
+@mixin use-woff2($family, $family-suffix) when ($use-woff2 = true){
+    src+: url('${font-folder}/KaTeX_${family}-${family-suffix}.woff2') format('woff2')
+}
+
+@mixin use-woff($family, $family-suffix) when ($use-woff = true){
+    src+: url('${font-folder}/KaTeX_${family}-${family-suffix}.woff') format('woff')
+}
+
+@mixin use-ttf($family, $family-suffix) when ($use-ttf = true){
+    src+: url('${font-folder}/KaTeX_${family}-${family-suffix}.ttf') format('truetype')
+}
+
+@mixin generate-suffix($weight, $style) when ($weight = normal) and ($style = normal){
+    $suffix: 'Regular';
+}
+@mixin generate-suffix($weight, $style) when ($weight = normal) and ($style = italic){
+    $suffix: 'Italic';
+}
+@mixin generate-suffix($weight, $style) when ($weight = bold) and ($style = normal){
+    $suffix: 'Bold';
+}
+@mixin generate-suffix($weight, $style) when ($weight = bold) and ($style = italic){
+    $suffix: 'BoldItalic';
+}
+
+@mixin font-face($family, $weight, $style){
+    @include generate-suffix($weight, $style);
+    $font-face {
+        font-family: 'KaTeX_${family}';
+        @include use-woff2($family, $suffix);
+        @include use-woff($family, $suffix);
+        @include use-ttf($family, $suffix);
+        font-weight: $weight;
+        font-style: $style;
+    }
+}
+
+@include font-face('AMS', normal, normal);
+@include font-face('Caligraphic', bold, normal);
+@include font-face('Caligraphic', normal, normal);
+@include font-face('Fraktur', bold, normal);
+@include font-face('Fraktur', normal, normal);
+@include font-face('Main', bold, normal);
+@include font-face('Main', bold, italic);
+@include font-face('Main', normal, italic);
+@include font-face('Main', normal, normal);
+//@include font-face('Math', bold, normal);
+@include font-face('Math', bold, italic);
+@include font-face('Math', normal, italic);
+//@include font-face('Math', normal, normal);
+@include font-face('SansSerif', bold, normal);
+@include font-face('SansSerif', normal, italic);
+@include font-face('SansSerif', normal, normal);
+@include font-face('Script', normal, normal);
+@include font-face('Size1', normal, normal);
+@include font-face('Size2', normal, normal);
+@include font-face('Size3', normal, normal);
+@include font-face('Size4', normal, normal);
+@include font-face('Typewriter', normal, normal);

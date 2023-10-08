@@ -25,3 +25,7 @@ export function beamIntensity(
 ): number {
   return cathode(cathodeVoltage) * anode(anodeVoltage);
 }
+
+export function beamDeflection(plateVoltage: number, anodeVoltage: number) {
+  return (x: number) => ((0.25 * plateVoltage) / anodeVoltage) * 0.1 * x ** 2;
+}

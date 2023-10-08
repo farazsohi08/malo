@@ -17,6 +17,9 @@
     "useDefineForClassFields": true,
     "types": ["node"],
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
 
     /* Linting */
     "strict": true,

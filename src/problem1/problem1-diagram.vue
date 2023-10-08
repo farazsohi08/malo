@@ -68,7 +68,7 @@
     <g class="field-lines" stroke-width=".4">
       <g
         class="transition-opacity"
-        :class="showAnodeFieldLines ? 'opacity-100' : 'opacity-0'"
+        :class="controls.showAnodeFieldLines ? 'opacity-100' : 'opacity-0'"
       >
         <g class="anode-field-lines fill-green-500 stroke-green-500">
           <path
@@ -128,7 +128,7 @@
 
     <g
       class="blue-stuff fill-none stroke-blue-600 transition-opacity"
-      :class="showBlueStuff ? 'opacity-100' : 'opacity-0'"
+      :class="controls.showBlueStuff ? 'opacity-100' : 'opacity-0'"
       :transform="`scale(${blueStuffScale})`"
       transform-origin="655 280"
     >
@@ -234,8 +234,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import * as equations from './problem1-equations.ts';
-import type { Controls } from './problem1-controls.interface.ts';
-const controls = defineProps<Controls>();
+import { controlsContext as controls } from './problem1-controls.context.ts';
 
 const cathodeDependence = computed(() =>
   equations.cathode(controls.cathodeVoltage),

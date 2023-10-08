@@ -11,6 +11,9 @@
       />
     </g>
     <path fill="#FFC" stroke="#FFC" d="M379.75 11.027h315.5v148.241h-315.5z" />
+    <clipPath id="yellow-rect">
+      <path  fill="#FFC" stroke="#FFC" d="M379.75 11.027h315.5v148.241h-315.5z" />
+    </clipPath>
     <g fill="none">
       <ellipse stroke="red" cx="212.313" cy="66.706" rx="8.103" ry="3.241" />
       <ellipse stroke="red" cx="212.313" cy="69.706" rx="8.103" ry="3.241" />
@@ -388,37 +391,58 @@
         d="M875.867 95.246c0-.993-.033-1.793-.064-2.529h1.248l.08 1.328h.032c.561-.944 1.489-1.488 2.753-1.488 1.889 0 3.298 1.585 3.298 3.922 0 2.785-1.713 4.161-3.538 4.161-1.023 0-1.92-.448-2.385-1.216h-.031v4.209h-1.393v-8.387zm1.393 2.065c0 .208.016.4.063.576.257.977 1.104 1.648 2.112 1.648 1.489 0 2.354-1.216 2.354-2.993 0-1.536-.816-2.865-2.305-2.865-.961 0-1.873.673-2.129 1.729a2.237 2.237 0 00-.096.56v1.345z"
       />
     </g>
+    <!-- d="M0,-100 Q370,300 740,-100" -->
+    <path v-bind="parabola" stroke="black" stroke-width="3" fill="none" />
   </svg>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as equations from './problem2-equations.ts';
-import type { Controls } from './problem2-controls.interface.ts';
-const controls = defineProps<Controls>();
+// import * as equations from './problem2-equations.ts';
+import { controlsContext as controls } from './problem2-controls.context.ts';
 
-const cathodeDependence = computed(() =>
-  equations.cathode(controls.cathodeVoltage),
-);
-const blueStuffScale = computed(
-  () => 0.5 + equations.beamField(controls.anodeVoltage) * 0.9,
-);
-const beamSpreadPath = computed(() => {
-  const spread = (250 - controls.cylinderVoltage) / 12.5;
-  return `l300, ${spread} v-${2 * spread + 10}`;
-});
-const anodeDependence = computed(() => equations.anode(controls.anodeVoltage));
-const anodeRelativeFieldStrength = computed(() => controls.anodeVoltage / 10);
-const cylinderRelativeFieldStrength = computed(
-  () => controls.cylinderVoltage / 250,
-);
-const beamIntensity = computed(
-  () => cathodeDependence.value * anodeDependence.value,
+// const cathodeDependence = computed(() =>
+//   equations.cathode(controls.cathodeVoltage),
+// );
+// const blueStuffScale = computed(
+//   () => 0.5 + equations.beamField(controls.anodeVoltage) * 0.9,
+// );
+// const beamSpreadPath = computed(() => {
+//   const spread = (250 - controls.cylinderVoltage) / 12.5;
+//   return `l300, ${spread} v-${2 * spread + 10}`;
+// });
+// const anodeDependence = computed(() => equations.anode(controls.anodeVoltage));
+// const anodeRelativeFieldStrength = computed(() => controls.anodeVoltage / 10);
+// const cylinderRelativeFieldStrength = computed(
+//   () => controls.cylinderVoltage / 250,
+// );
+// const beamIntensity = computed(
+//   () => cathodeDependence.value * anodeDependence.value,
+// );
+
+const parabola = computed(
+  (): { d: string; style: Partial<CSSStyleDeclaration> | string } => {
+    if (controls.anodeVoltage <= 0) return { d: '', style: '' };
+    const origin = { x: 381, y: 86 };
+    const dy = 70 * (controls.plateVoltage / controls.anodeVoltage);
+    const plateLength = 320;
+    const plateDistance = 50;
+    const path = `M${origin.x - plateLength}, ${origin.y - dy} Q ${origin.x}, ${
+      origin.y + dy
+    } ${origin.x + plateLength} ${origin.y - dy}`;
+    return {
+      d: path,
+      style: { clipPath: 'url(#yellow-rect)' },
+      // style: { clipPath: `path(M${origin.x},${origin.y - plateDistance} h${plateLength}v${-plateDistance}h${-plateLength}z` },
+      // style: { clipPath: `polygon(50% 0%, 50% 100%, 100% 100%, 100% 0%)` },
+    };
+    // M ${origin.x}, ${origin.y - dy} v300
+  },
 );
 </script>
 
 <style scoped>
-.coil {
+/* .coil {
   filter: drop-shadow(
     0 0 v-bind(cathodeDependence + 'px') theme('colors.amber.400')
   );
@@ -438,7 +462,7 @@ const beamIntensity = computed(
     0 0 v-bind(2.5 * cylinderRelativeFieldStrength + 'px')
       theme('colors.yellow.500' / v-bind(cylinderRelativeFieldStrength))
   );
-}
+} */
 
 .beam {
   fill: linear-gradient(0 green 0.5 green 0.5 black 1 black);

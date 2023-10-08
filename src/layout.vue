@@ -19,16 +19,18 @@
   </header>
   <div class="grid place-items-center p-4">
     <main class="max-w-4xl">
-      <transition
-        enter-active-class="duration-300 ease-out"
-        enter-from-class="transform opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="duration-200 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="transform opacity-0"
-      >
-        <RouterView></RouterView>
-      </transition>
+      <RouterView v-slot="{ Component }">
+        <transition
+          enter-active-class="duration-300 ease-out"
+          enter-from-class="transform opacity-0"
+          enter-to-class="opacity-100"
+          leave-active-class="duration-200 ease-in"
+          leave-from-class="opacity-100"
+          leave-to-class="transform opacity-0"
+        >
+          <component :is="Component" />
+        </transition>
+      </RouterView>
     </main>
   </div>
   <footer class="h-20 bg-teal-700"></footer>

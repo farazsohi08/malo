@@ -1,5 +1,5 @@
 <template>
-  <div :id="containerId" class="jxgbox mx-auto aspect-square max-w-[50rem]" />
+  <div :id="containerId" class="jxgbox w-full mx-auto aspect-square max-w-[50rem]" />
 </template>
 
 <script setup lang="ts">
