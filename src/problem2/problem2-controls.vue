@@ -1,12 +1,7 @@
 <template>
   <div
-    class="grid grid-cols-2 grid-rows-3 items-center justify-items-end gap-8"
+    class="flex flex-col items-center gap-8"
   >
-    <Switch
-      v-model="controls.showAnodeFieldLines"
-      label="Show Field Lines from Anode"
-      rounded
-    ></Switch>
     <label class="w-72">
       <div class="flex justify-between">
         <div>Cathode Voltage (V<sub>h</sub>)</div>
@@ -24,11 +19,6 @@
         step="0.01"
       />
     </label>
-    <Switch
-      v-model="controls.showBlueStuff"
-      label="Show Electron"
-      rounded
-    ></Switch>
     <label class="w-72">
       <div class="flex justify-between">
         <div>Anode Voltage (V<sub>a</sub>)</div>
@@ -46,7 +36,6 @@
         step="0.01"
       />
     </label>
-    <div></div>
     <label class="w-72">
       <div class="flex justify-between">
         <div>Deflector Plate Voltage (V<sub>p</sub>)</div>

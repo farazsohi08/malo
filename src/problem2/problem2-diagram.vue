@@ -11,10 +11,15 @@
       />
     </g>
     <path fill="#FFC" stroke="#FFC" d="M379.75 11.027h315.5v148.241h-315.5z" />
-    <clipPath id="yellow-rect">
-      <path  fill="#FFC" stroke="#FFC" d="M379.75 11.027h315.5v148.241h-315.5z" />
+    <clipPath id="yellow-rect-clip">
+      <!-- <path d="M379.75 11.027h315.5v148.241h-315.5z" /> -->
+      <!-- <path d="M379.75 14.642h315.5 l2000,-1000 v2148.241 l-2000,-1000 h-315.5z" /> -->
+      <path d="M379.75 14.642h315.5 l2200,-1000 v2141.011 l-2200,-1000 h-315.5z" />
     </clipPath>
-    <g fill="none">
+    <!-- <path d="M379.75 14.642h315.5 l2200,-1000 v2141.011 l-2200,-1000 h-315.5z" fill="green" /> -->
+    <path stroke="#000" d="M212.313 59.465H86.877" />
+    <path stroke="#000" d="M212.313 112.947H86.877" />
+    <g class="coil fill-none">
       <ellipse stroke="red" cx="212.313" cy="66.706" rx="8.103" ry="3.241" />
       <ellipse stroke="red" cx="212.313" cy="69.706" rx="8.103" ry="3.241" />
       <ellipse stroke="red" cx="212.313" cy="73.706" rx="8.103" ry="3.241" />
@@ -26,9 +31,7 @@
       <ellipse stroke="red" cx="212.313" cy="97.706" rx="8.103" ry="3.242" />
       <ellipse stroke="red" cx="212.313" cy="101.706" rx="8.103" ry="3.242" />
       <ellipse stroke="red" cx="212.313" cy="105.706" rx="8.103" ry="3.242" />
-      <path stroke="#000" d="M212.313 59.465H86.877" />
       <ellipse stroke="red" cx="212.313" cy="62.706" rx="8.103" ry="3.241" />
-      <path stroke="#000" d="M212.313 112.947H86.877" />
       <ellipse stroke="red" cx="212.313" cy="109.706" rx="8.103" ry="3.242" />
     </g>
     <g opacity=".6">
@@ -302,21 +305,13 @@
       />
     </g>
     <path
-      fill="#0091D3"
-      stroke="#0091D3"
-      stroke-width="4"
-      d="M244.078 86.206l41.935-.001"
+      class="beam fill-none stroke-[4] stroke-sky-600"
+      d="M244.078 86.206 h41.935"
     />
     <g>
       <path
-        fill="none"
-        stroke="#0091D3"
-        stroke-width="4"
-        d="M294.078 86.206l111.636-.001"
-      />
-      <path
-        fill="#0091D3"
-        d="M396.435 97.657l-1.91-2.051 10.113-9.398-10.113-9.401 1.91-2.05 12.315 11.451z"
+      class="beam fill-none stroke-[4] stroke-sky-600"
+        d="M294.078 86.206 h86"
       />
     </g>
     <g>
@@ -392,13 +387,13 @@
       />
     </g>
     <!-- d="M0,-100 Q370,300 740,-100" -->
-    <path v-bind="parabola" stroke="black" stroke-width="3" fill="none" />
+    <path :d="parabola" style="clip-path: url(#yellow-rect-clip);" class="beam stroke-sky-600 stroke-[4] fill-none" />
   </svg>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-// import * as equations from './problem2-equations.ts';
+import * as equations from './problem2-equations.ts';
 import { controlsContext as controls } from './problem2-controls.context.ts';
 
 // const cathodeDependence = computed(() =>
@@ -420,51 +415,36 @@ import { controlsContext as controls } from './problem2-controls.context.ts';
 //   () => cathodeDependence.value * anodeDependence.value,
 // );
 
+const beamIntensity = computed(() => equations.beamIntensity(controls.cathodeVoltage, controls.anodeVoltage));
+const cathodeDependence = computed(() =>  equations.cathode(controls.cathodeVoltage));
+
 const parabola = computed(
-  (): { d: string; style: Partial<CSSStyleDeclaration> | string } => {
-    if (controls.anodeVoltage <= 0) return { d: '', style: '' };
-    const origin = { x: 381, y: 86 };
-    const dy = 70 * (controls.plateVoltage / controls.anodeVoltage);
+  (): string => {
+    if (controls.anodeVoltage <= 0) return '';
+    const origin = { x: 379.75, y: 86.206 };
+    const height = 70 * (controls.plateVoltage / controls.anodeVoltage);
     const plateLength = 320;
-    const plateDistance = 50;
-    const path = `M${origin.x - plateLength}, ${origin.y - dy} Q ${origin.x}, ${
-      origin.y + dy
-    } ${origin.x + plateLength} ${origin.y - dy}`;
-    return {
-      d: path,
-      style: { clipPath: 'url(#yellow-rect)' },
-      // style: { clipPath: `path(M${origin.x},${origin.y - plateDistance} h${plateLength}v${-plateDistance}h${-plateLength}z` },
-      // style: { clipPath: `polygon(50% 0%, 50% 100%, 100% 100%, 100% 0%)` },
-    };
-    // M ${origin.x}, ${origin.y - dy} v300
+    const leftPoint = {x: origin.x - plateLength, y: origin.y - height};
+    const controlPoint = { x: origin.x , y: (origin.y + height) };
+    const rightPoint = {x: origin.x + plateLength ,y: leftPoint.y};
+    const tangentAtEnd = -2 * height / plateLength // y=ax^2 => m = 2ax = 2 * y / x
+
+    const lineDx = 100;
+    const line = {dx: lineDx, dy: lineDx * tangentAtEnd}
+    return`M${leftPoint.x}, ${leftPoint.y} Q ${controlPoint.x}, ${controlPoint.y} ${rightPoint.x} ${rightPoint.y} l${line.dx}, ${line.dy}`;
   },
 );
 </script>
 
 <style scoped>
-/* .coil {
+.coil {
   filter: drop-shadow(
     0 0 v-bind(cathodeDependence + 'px') theme('colors.amber.400')
   );
 }
 
-.anode-field-lines {
-  stroke-width: v-bind(anodeRelativeFieldStrength);
-  filter: drop-shadow(
-    0 0 v-bind(2.5 * anodeRelativeFieldStrength + 'px')
-      theme('colors.green.500' / v-bind(anodeRelativeFieldStrength))
-  );
-}
-
-.cylinder-field-lines {
-  stroke-width: v-bind(cylinderRelativeFieldStrength);
-  filter: drop-shadow(
-    0 0 v-bind(2.5 * cylinderRelativeFieldStrength + 'px')
-      theme('colors.yellow.500' / v-bind(cylinderRelativeFieldStrength))
-  );
-} */
 
 .beam {
-  fill: linear-gradient(0 green 0.5 green 0.5 black 1 black);
+  opacity: v-bind(beamIntensity);
 }
 </style>

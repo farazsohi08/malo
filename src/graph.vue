@@ -12,6 +12,10 @@ const props = defineProps({
     type: Function as PropType<(x: number, y: number) => number>,
     required: true,
   },
+  xLabel: {type: String, default: 'x'},
+  yLabel: {type: String, default: 'y'},
+  zLabel: {type: String, default: 'z'},
+  zScale: {type: Number, default: 1},
 });
 
 const containerId = `jxgbox-${uniqueId()}`;
@@ -37,7 +41,7 @@ onMounted(() => {
   );
 
   // 3D surface
-  view.create('functiongraph3d', [props.graphFunction, xyBound, xyBound], {
+  view.create('functiongraph3d', [(x:number, y:number) =>  props.zScale * props.graphFunction(x, y), xyBound, xyBound], {
     strokeWidth: 0.5,
     stepsU: 70,
     stepsV: 70,
@@ -46,14 +50,14 @@ onMounted(() => {
   // 3D points:
   // Point on xy plane
   const pointXY = view.create('point3d', [7, 3, 0], {
-    name: '(U\u2095, U\u2090)',
+    name: `(${props.xLabel}, ${props.yLabel})`,
   });
 
   // Project pointXY to the surface
   const pointSurface = view.create(
     'point3d',
-    [() => [pointXY.X(), pointXY.Y(), props.graphFunction(pointXY.X(), pointXY.Y())]],
-    { name: 'Beam Intensity' },
+    [() => [pointXY.X(), pointXY.Y(), props.zScale * props.graphFunction(pointXY.X(), pointXY.Y())]],
+    { name: props.zLabel },
   );
 
   view.create('line3d', [pointXY, pointSurface], { dash: 1 });

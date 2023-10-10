@@ -3,7 +3,13 @@
     <Tex />
     <Controls />
     <Diagram />
-    <Graph :graph-function="(x, y) => 3 * equations.beamIntensity(x, y)" />
+    <Graph
+      :graph-function="equations.beamIntensity"
+      x-label="U&#x2095;"
+      y-label="U&#x2090;"
+      z-label="Beam Intensity"
+      :z-scale="3"
+    />
   </div>
 </template>
 
