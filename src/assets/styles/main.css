@@ -1,6 +1,8 @@
 /* TODO: patch upstream exports */
-@import 'jsxgraph';
-@import 'katex/dist/katex.css';
+/* @import 'jsxgraph';
+@import 'katex/dist/katex.css'; */
+@import url('https://cdn.jsdelivr.net/npm/jsxgraph@1.6.1/distrib/jsxgraph.css');
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,7 +20,18 @@
   text-rendering: optimizeLegibility;
 }
 
+/* 
 mspace[linebreak='newline'] {
   display: block;
   width: 100%;
+} */
+
+/* .katex {
+  display: block;
+  overflow: scroll;
+  min-height: 400px;
 }
+
+.katex-display .katex {
+  white-space: inherit !important;
+} */

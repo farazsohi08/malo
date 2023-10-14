@@ -89,7 +89,7 @@ module.exports = {
           {
             registeredComponentsOnly: true,
             globals: ['RouterLink', 'RouterView'],
-            ignores: [],
+            ignores: ['/ce-.*/'],
           },
         ],
         'vue/block-lang': ['error', { script: { lang: 'ts' } }],

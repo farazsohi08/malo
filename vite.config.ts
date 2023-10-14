@@ -9,7 +9,15 @@ import pluginPurgeCss from '@mojojoejo/vite-plugin-purgecss';
 export default {
   plugins: [
     compileTime(),
-    vue(),
+    vue({
+      customElement: true,
+      template: {
+        compilerOptions: {
+          // treat all tags with "ce-" prefix as custom elements
+          isCustomElement: (tag) => tag.startsWith('ce-'),
+        },
+      },
+    }),
     pluginPurgeCss({
       content: ['./index.html', './src/**/*.vue', './src/**/*.ts'],
       defaultExtractor(content: string) {

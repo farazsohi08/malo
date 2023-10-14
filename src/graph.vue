@@ -1,26 +1,32 @@
 <template>
-  <div :id="containerId" class="jxgbox w-full mx-auto aspect-square max-w-[50rem]" />
+  <div    :id="containerId"    class="jxgbox mx-auto aspect-square w-full max-w-[50rem]"  />
 </template>
 
 <script setup lang="ts">
-import JXG from 'jsxgraph';
+import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph@1.6.1/distrib/jsxgraphcore.mjs';
+// import JXG from 'jsxgraph';
 import { uniqueId } from 'lodash-es';
-import { onMounted, type PropType } from 'vue';
+import { nextTick, onMounted,  type PropType } from 'vue';
 
 const props = defineProps({
   graphFunction: {
     type: Function as PropType<(x: number, y: number) => number>,
     required: true,
   },
-  xLabel: {type: String, default: 'x'},
-  yLabel: {type: String, default: 'y'},
-  zLabel: {type: String, default: 'z'},
-  zScale: {type: Number, default: 1},
+  xLabel: { type: String, default: 'x' },
+  yLabel: { type: String, default: 'y' },
+  zLabel: { type: String, default: 'z' },
+  zScale: { type: Number, default: 1 },
 });
 
 const containerId = `jxgbox-${uniqueId()}`;
 
-onMounted(() => {
+
+onMounted(async () => {
+  await nextTick();
+  
+  console.log(document.getElementById(containerId));
+  
   const board = JXG.JSXGraph.initBoard(containerId, {
     renderer: 'svg',
     boundingbox: [-8, 8, 8, -8],
@@ -41,11 +47,19 @@ onMounted(() => {
   );
 
   // 3D surface
-  view.create('functiongraph3d', [(x:number, y:number) =>  props.zScale * props.graphFunction(x, y), xyBound, xyBound], {
-    strokeWidth: 0.5,
-    stepsU: 70,
-    stepsV: 70,
-  });
+  view.create(
+    'functiongraph3d',
+    [
+      (x: number, y: number) => props.zScale * props.graphFunction(x, y),
+      xyBound,
+      xyBound,
+    ],
+    {
+      strokeWidth: 0.5,
+      stepsU: 70,
+      stepsV: 70,
+    },
+  );
 
   // 3D points:
   // Point on xy plane
@@ -56,7 +70,13 @@ onMounted(() => {
   // Project pointXY to the surface
   const pointSurface = view.create(
     'point3d',
-    [() => [pointXY.X(), pointXY.Y(), props.zScale * props.graphFunction(pointXY.X(), pointXY.Y())]],
+    [
+      () => [
+        pointXY.X(),
+        pointXY.Y(),
+        props.zScale * props.graphFunction(pointXY.X(), pointXY.Y()),
+      ],
+    ],
     { name: props.zLabel },
   );
 

@@ -71,4 +71,6 @@
 import Switch from '@/switch.vue';
 import {controlsContext as controls} from './problem1-controls.context.ts';
 </script>
-<style scoped></style>
+
+<style src="@/assets/styles/main.css"></style>
+

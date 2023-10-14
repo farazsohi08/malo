@@ -57,7 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import Switch from '@/switch.vue';
 import { controlsContext as controls } from './problem2-controls.context.ts';
 </script>
 <style scoped></style>

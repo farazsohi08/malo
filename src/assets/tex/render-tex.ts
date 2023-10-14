@@ -11,17 +11,23 @@ export const renderTex= (file: string): CompileTimeFunction => async ({ root }) 
   const tex = await fs.readFile(filePath);
 
   const html = katex.renderToString(tex.toString('utf8'), {
+    // displayMode: true,
     // output: 'mathml',
     trust: true,
-    strict: false,
+    strict: true,
   });
 
   // const htmlWithNewlineFix = html.replaceAll(
-  //   '<mspace linebreak="newline"></mspace>',
-  //   '</math>$&<math>',
+  //   '<mspace></mspace>',
+  //   // '<mspace linebreak="newline"></mspace>',
+  //   '</mrow>$&<mrow>',
+  //   // '</mrow></math><span class="mspace newline"></span>$&<math><mrow>',
+  //   // '</math>$&<math>',
+  // // '<span class="mspace newline"></span>',
+  // // ''
   // );
 
   return { data: html, watchFiles: [filePath] };
-  // return { data: htmlWithNewlineFix, watchFiles: texFiles };
+  // return { data: htmlWithNewlineFix, watchFiles: [filePath] };
 };
 
