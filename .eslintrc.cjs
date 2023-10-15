@@ -12,7 +12,12 @@ module.exports = {
     EXPERIMENTAL_useSourceOfProjectReferenceRedirect: true,
     extraFileExtensions: ['.vue'],
   },
-  extends: ['eslint:recommended', 'plugin:unicorn/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:unicorn/recommended',
+    // 'plugin:import/recommended',
+    // 'plugin:import/typescript',
+  ],
   rules: {
     // The core 'no-unused-vars' rules (in the eslint:recommeded ruleset)
     // does not work with type definitions
@@ -25,8 +30,11 @@ module.exports = {
   overrides: [
     {
       // Config and build scripts in root directory
-      files: ['./*.{ts,mts,cts,cjs,js,mjs}'],
+      files: ['./*.{ts,mts,cts,cjs,js,mjs}', 'src/assets/tex/**/*.ts'],
       env: { node: true, browser: false, es2023: true, jest: false },
+      settings: {
+        'import/resolver': { typescript: { project: './tsconfig.node.json' } },
+      },
       overrides: [
         {
           files: ['*.{ts,mts,cts}'],
@@ -37,11 +45,15 @@ module.exports = {
             'plugin:unicorn/recommended',
             'prettier',
           ],
+          rules: {
+            'import/extensions': 'off',
+          },
         },
       ],
     },
     {
       files: ['src/**/*.{vue,ts,tsx}'],
+      excludedFiles: ['src/assets/tex/**/*.ts'],
       env: { node: false, browser: true, es2023: true, jest: false },
       plugins: ['@typescript-eslint', 'vue', 'unicorn'],
       parser: 'vue-eslint-parser',
@@ -56,6 +68,9 @@ module.exports = {
           ts: require.resolve('@typescript-eslint/parser'),
           tsx: require.resolve('@typescript-eslint/parser'),
         },
+      },
+      settings: {
+        'import/resolver': { typescript: { project: './tsconfig.app.json' } },
       },
       extends: [
         'plugin:vue/vue3-recommended',
@@ -74,7 +89,7 @@ module.exports = {
           {
             registeredComponentsOnly: true,
             globals: ['RouterLink', 'RouterView'],
-            ignores: [],
+            ignores: ['/ce-.*/'],
           },
         ],
         'vue/block-lang': ['error', { script: { lang: 'ts' } }],
@@ -84,6 +99,12 @@ module.exports = {
           { extensions: ['vue', 'ts', 'tsx'], shouldMatchCase: false },
         ],
         'vue/match-component-import-name': 'error',
+        // TODO: fix for custom extended element (<div is="custom-element">)
+        'vue/no-deprecated-html-element-is': 'off',
+        'unicorn/prevent-abbreviations': [
+          'error',
+          { allowList: { props: true } },
+        ],
       },
     },
   ],

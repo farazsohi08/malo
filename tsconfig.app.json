@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "files": ["types/browser.d.ts"],
+  "files": ["types/browser.d.ts", "./src/problem1/controls.ts"],
   "include": ["src"],
   "exclude": ["src/**/__tests__/*", "src/assets/tex/**/*"],
   "compilerOptions": {
