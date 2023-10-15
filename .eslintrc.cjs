@@ -99,6 +99,8 @@ module.exports = {
           { extensions: ['vue', 'ts', 'tsx'], shouldMatchCase: false },
         ],
         'vue/match-component-import-name': 'error',
+        // TODO: fix for custom extended element (<div is="custom-element">)
+        'vue/no-deprecated-html-element-is': 'off',
         'unicorn/prevent-abbreviations': [
           'error',
           { allowList: { props: true } },

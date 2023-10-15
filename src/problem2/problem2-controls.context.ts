@@ -5,4 +5,3 @@ export const controlsContext = reactive({
   anodeVoltage: 3,
   plateVoltage: 0,
 });
-

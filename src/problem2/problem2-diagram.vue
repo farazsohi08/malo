@@ -14,7 +14,9 @@
     <clipPath id="yellow-rect-clip">
       <!-- <path d="M379.75 11.027h315.5v148.241h-315.5z" /> -->
       <!-- <path d="M379.75 14.642h315.5 l2000,-1000 v2148.241 l-2000,-1000 h-315.5z" /> -->
-      <path d="M379.75 14.642h315.5 l2200,-1000 v2141.011 l-2200,-1000 h-315.5z" />
+      <path
+        d="M379.75 14.642h315.5 l2200,-1000 v2141.011 l-2200,-1000 h-315.5z"
+      />
     </clipPath>
     <!-- <path d="M379.75 14.642h315.5 l2200,-1000 v2141.011 l-2200,-1000 h-315.5z" fill="green" /> -->
     <path stroke="#000" d="M212.313 59.465H86.877" />
@@ -305,12 +307,12 @@
       />
     </g>
     <path
-      class="beam fill-none stroke-[4] stroke-sky-600"
+      class="beam fill-none stroke-sky-600 stroke-[4]"
       d="M244.078 86.206 h41.935"
     />
     <g>
       <path
-      class="beam fill-none stroke-[4] stroke-sky-600"
+        class="beam fill-none stroke-sky-600 stroke-[4]"
         d="M294.078 86.206 h86"
       />
     </g>
@@ -387,7 +389,11 @@
       />
     </g>
     <!-- d="M0,-100 Q370,300 740,-100" -->
-    <path :d="parabola" style="clip-path: url(#yellow-rect-clip);" class="beam stroke-sky-600 stroke-[4] fill-none" />
+    <path
+      :d="parabola"
+      style="clip-path: url(#yellow-rect-clip)"
+      class="beam fill-none stroke-sky-600 stroke-[4]"
+    />
   </svg>
 </template>
 
@@ -415,26 +421,30 @@ import { controlsContext as controls } from './problem2-controls.context.ts';
 //   () => cathodeDependence.value * anodeDependence.value,
 // );
 
-const beamIntensity = computed(() => equations.beamIntensity(controls.cathodeVoltage, controls.anodeVoltage));
-const cathodeDependence = computed(() =>  equations.cathode(controls.cathodeVoltage));
-
-const parabola = computed(
-  (): string => {
-    if (controls.anodeVoltage <= 0) return '';
-    const origin = { x: 379.75, y: 86.206 };
-    const height = 70 * (controls.plateVoltage / controls.anodeVoltage);
-    const plateLength = 320;
-    const leftPoint = {x: origin.x - plateLength, y: origin.y - height};
-    const controlPoint = { x: origin.x , y: (origin.y + height) };
-    const rightPoint = {x: origin.x + plateLength ,y: leftPoint.y};
-    const tangentAtEnd = -2 * height / plateLength // y=ax^2 => m = 2ax = 2 * y / x
-
-    const lineDx = 100;
-    const line = {dx: lineDx, dy: lineDx * tangentAtEnd}
-    return`M${leftPoint.x}, ${leftPoint.y} Q ${controlPoint.x}, ${controlPoint.y} ${rightPoint.x} ${rightPoint.y} l${line.dx}, ${line.dy}`;
-  },
+const beamIntensity = computed(() =>
+  equations.beamIntensity(controls.cathodeVoltage, controls.anodeVoltage),
 );
+const cathodeDependence = computed(() =>
+  equations.cathode(controls.cathodeVoltage),
+);
+
+const parabola = computed((): string => {
+  if (controls.anodeVoltage <= 0) return '';
+  const origin = { x: 379.75, y: 86.206 };
+  const height = 70 * (controls.plateVoltage / controls.anodeVoltage);
+  const plateLength = 320;
+  const leftPoint = { x: origin.x - plateLength, y: origin.y - height };
+  const controlPoint = { x: origin.x, y: origin.y + height };
+  const rightPoint = { x: origin.x + plateLength, y: leftPoint.y };
+  const tangentAtEnd = (-2 * height) / plateLength; // y=ax^2 => m = 2ax = 2 * y / x
+
+  const lineDx = 100;
+  const line = { dx: lineDx, dy: lineDx * tangentAtEnd };
+  return `M${leftPoint.x}, ${leftPoint.y} Q ${controlPoint.x}, ${controlPoint.y} ${rightPoint.x} ${rightPoint.y} l${line.dx}, ${line.dy}`;
+});
 </script>
+
+<style src="@/assets/styles/main.css"></style>
 
 <style scoped>
 .coil {
@@ -442,7 +452,6 @@ const parabola = computed(
     0 0 v-bind(cathodeDependence + 'px') theme('colors.amber.400')
   );
 }
-
 
 .beam {
   opacity: v-bind(beamIntensity);

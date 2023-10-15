@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col items-center gap-8"
-  >
+  <div class="flex flex-col items-center gap-8">
     <label class="w-72">
       <div class="flex justify-between">
         <div>Cathode Voltage (V<sub>h</sub>)</div>
@@ -59,4 +57,5 @@
 <script setup lang="ts">
 import { controlsContext as controls } from './problem2-controls.context.ts';
 </script>
-<style scoped></style>
+
+<style src="@/assets/styles/main.css"></style>

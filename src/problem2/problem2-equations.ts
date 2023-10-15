@@ -27,5 +27,5 @@ export function beamIntensity(
 }
 
 export function maximumDeflection(plateVoltage: number, anodeVoltage: number) {
-  return  ((0.25 * plateVoltage) / anodeVoltage) * 0.1 * 380 ** 2;
+  return ((0.25 * plateVoltage) / anodeVoltage) * 0.1 * 380 ** 2;
 }

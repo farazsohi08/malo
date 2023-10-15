@@ -67,6 +67,7 @@
     "katex": "^0.16.8",
     "lodash-es": "^4.17.21",
     "remeda": "^1.26.0",
+    "superstruct": "^1.0.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },

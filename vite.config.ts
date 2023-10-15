@@ -1,12 +1,21 @@
+import pluginPurgeCss from '@mojojoejo/vite-plugin-purgecss';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'node:url';
 import { type UserConfig } from 'vite';
 import compileTime from 'vite-plugin-compile-time';
-// import eslintPlugin from 'vite-plugin-eslint';
-import pluginPurgeCss from '@mojojoejo/vite-plugin-purgecss';
-// import htmlPurge from 'vite-plugin-html-purgecss'
 
 export default {
+  define: {
+    'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`,
+  },
+  build: {
+    target: 'esnext',
+    lib: {
+      entry: 'src/web-components.ts',
+      formats: ['es'],
+      fileName: 'components',
+    },
+  },
   plugins: [
     compileTime(),
     vue({
@@ -36,7 +45,4 @@ export default {
     }),
   ],
   resolve: { alias: { '@': fileURLToPath(new URL('src', import.meta.url)) } },
-
-  // css: { transformer: 'lightningcss', lightningcss: { cssModules: {} } },
-  // build: { cssMinify: 'lightningcss' },
 } satisfies UserConfig;
